@@ -151,21 +151,9 @@ def getMutant(projectList, versionList, process_name):
                 fp.close()
             finally:
                 locka.release()
-            # mutate
-            # code_scope = code_scope[code_scope["class"].isnull()]
-            # src_file_path = get_src_file_path(project_id, version_id)
-            # for i in code_scope.index[0:1]: # Debug
-            # for i in code_scope.index:
-            # ！code_scope = json.load(f)[f"{project_id}-{version_id}"]
             for i in code_scope:
                 # src = code_scope.loc[i,"src"]
                 src = i
-                # if project_id == 'Time' and str(version_id) == '1':
-                #     src = 'org/joda' + src
-                # source_file_name = os.path.join(src_file_path, src.replace(".","/") + ".java")
-                # source_file_name = os.path.join(src_file_path, src)
-                # source_file_name = Path(src_file_path) / src
-                # source_file_name = f"{src_file_path}/{src}"
                 source_file_name = f"{project_clean_path}/{project_id}/{version_id}b{src}"
                 # line_to_mutate = code_scope.loc[i, "line"] + 1
                 lines_num = get_file_lines(source_file_name)  # 获取行号
@@ -245,8 +233,6 @@ def startThread():
     versionList['1'] = versionList1
     versionList['2'] = versionList2
     # versionList['3'] = versionList3
-    # print(versionList)
-    # print(versionList)
     threads = [threading.Thread(name='t%d' % (i,), target=getMutant, args=(projectList, versionList[str(i)],)) for i in
                range(3)]
     [t.start() for t in threads]
